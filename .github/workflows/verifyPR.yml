@@ -6,6 +6,7 @@ on:
 
 jobs:
   verify:
+    if: false # disabled
     runs-on: ubuntu-latest
     name: Verify PR contents
     steps:

@@ -1,3 +1,3 @@
-# tackle2-addon-alizer
+# tackle2-addon-ai-migrator
 
-Automatically tags an application with language, framework, and tooling discovered by [devfiles/alizer](github.com/devfiles/alizer).
+For now, runs a skill to migrate the given application

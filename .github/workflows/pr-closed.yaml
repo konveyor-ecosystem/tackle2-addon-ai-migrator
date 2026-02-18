@@ -12,6 +12,7 @@ jobs:
     permissions:
       pull-requests: write
       contents: write
-    if: github.event.pull_request.merged == true
+    if: false # disabled
+    # if: github.event.pull_request.merged == true
     secrets: inherit
     uses: konveyor/release-tools/.github/workflows/cherry-pick.yml@main

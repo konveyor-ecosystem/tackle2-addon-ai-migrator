@@ -15,6 +15,7 @@ concurrency:
 
 jobs:
   push-quay:
+    if: false # disabled
     name: Build and Push Manifest
     runs-on: ubuntu-latest
     strategy:

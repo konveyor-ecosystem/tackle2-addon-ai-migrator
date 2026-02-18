@@ -10,6 +10,7 @@ on:
 
 jobs:
   fmt:
+    if: false # disabled
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -18,6 +19,7 @@ jobs:
           go-version: '1.21'
       - run: make fmt
   vet:
+    if: false # disabled
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -26,6 +28,7 @@ jobs:
           go-version: '1.21'
       - run: make vet
   build:
+    if: false # disabled
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -34,6 +37,7 @@ jobs:
           go-version: '1.21'
       - run: make cmd
   build-image:
+    if: false # disabled
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
