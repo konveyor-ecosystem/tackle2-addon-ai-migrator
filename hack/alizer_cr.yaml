@@ -1,0 +1,8 @@
+apiVersion: tackle.konveyor.io/v1alpha1
+kind: Addon
+metadata:
+  name: language-discovery
+  namespace: konveyor-tackle
+spec:
+  image: 'quay.io/konveyor/tackle2-addon-discovery:latest'
+  imagePullPolicy: Always
