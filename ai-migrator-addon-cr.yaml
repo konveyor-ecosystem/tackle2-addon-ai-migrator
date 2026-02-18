@@ -1,0 +1,19 @@
+apiVersion: tackle.konveyor.io/v1alpha1
+kind: Addon
+metadata:
+  name: ai-migrator
+  namespace: konveyor-tackle
+spec:
+  container:
+    name: addon
+    # does not exist yet
+    image: quay.io/konveyor/tackle2-addon-ai-migrator:latest
+    imagePullPolicy: Always
+    resources:
+      limits:
+        cpu: "1"
+        memory: 512Mi
+      requests:
+        cpu: "100m"
+        memory: 256Mi
+  task: ^(ai-migrator)$

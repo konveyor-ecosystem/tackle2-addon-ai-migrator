@@ -5,7 +5,7 @@ import (
 	"path"
 
 	hub "github.com/konveyor/tackle2-hub/shared/addon"
-	"github.com/konveyor/tackle2-hub/shared/addon/scm"
+	// "github.com/konveyor/tackle2-hub/shared/addon/scm"
 )
 
 var (
@@ -16,8 +16,8 @@ var (
 )
 
 type Data struct {
-	Repository scm.SCM
-	Source     string
+	// Repository scm.SCM
+	Source string
 }
 
 func init() {
@@ -42,14 +42,23 @@ func main() {
 		if err != nil {
 			return
 		}
-		err = FetchRepository(application)
-		if err != nil {
-			return
-		}
-		err = Tag(application, d.Source)
-		if err != nil {
-			return
-		}
+
+		// Failing for now after multiple runs
+		// err = FetchRepository(application)
+		// if err != nil {
+		// 	return
+		// }
+
+		// Old code
+		// err = Tag(application, d.Source)
+		// if err != nil {
+		// 	return
+		// }
+
+		// Just print out the data and application for now.
+		addon.Log.Info("[test]", "data", d)
+		addon.Log.Info("[test]", "application", application)
+
 		return
 	})
 }
