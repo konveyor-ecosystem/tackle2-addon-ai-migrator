@@ -1,0 +1,3 @@
+[submodule "recipes"]
+	path = recipes
+	url = https://github.com/konveyor-ecosystem/playpen-pf-mig-skills.git
