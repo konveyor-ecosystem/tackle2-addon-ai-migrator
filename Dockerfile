@@ -9,8 +9,13 @@ RUN microdnf -y install \
     openssh-clients \
     subversion \
     git \
-    tar
+    tar \
+    python3 \
+    curl
 
+RUN GOOSE_VERSION=v1.24.0 \
+    curl -fsSL https://github.com/block/goose/releases/download/stable/download_cli.sh | bash \
+    && mv ~/.local/bin/goose /usr/local/bin/goose
 
 RUN sed -i 's/^LANG=.*/LANG="en_US.utf8"/' /etc/locale.conf
 ENV LANG=en_US.utf8
@@ -22,4 +27,5 @@ ENV HOME=/addon ADDON=/addon
 WORKDIR /addon
 ARG GOPATH=/opt/app-root
 COPY --from=addon $GOPATH/src/bin/addon /usr/bin
+COPY recipes/goose/recipes /opt/goose/recipes
 ENTRYPOINT ["/usr/bin/addon"]

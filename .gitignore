@@ -2,3 +2,6 @@ NOTES.md
 TODO.md
 .env
 token.json
+source/
+rules/
+shared/
