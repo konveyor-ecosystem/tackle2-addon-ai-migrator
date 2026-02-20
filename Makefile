@@ -11,6 +11,9 @@ PKGDIR = $(subst /...,,$(PKG))
 cmd: fmt vet
 	go build -ldflags="-w -s" -o ${CMD} github.com/konveyor-ecosystem/tackle2-addon-ai-migrator/cmd
 
+fake-goose:
+	go build -o bin/fake-goose ./hack/fake-goose/
+
 image-docker:
 	docker build -t ${IMG} .
 
