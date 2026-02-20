@@ -2,6 +2,8 @@
 
 ## Auth
 
+> [!NOTE] This is all borked because I disabled auth
+
 To make sure `oc` works, we need to get to the tackle-hub service. The hub API isn't directly accessible through the OpenShift route (Keycloak proxy intercepts everything). Port-forward to bypass it:
 
 ```bash
@@ -23,7 +25,6 @@ Add the token as `TOKEN` in your env, preferably in a `.env` file. Note that the
 Query the API:
 
 ```bash
-
 curl -kSs http://localhost:8080/tasks?limit=5 \
   -H "Authorization: Bearer ${TOKEN}" \
   -H "Accept: application/json" > tasks.json
@@ -86,3 +87,29 @@ curl -kSs http://localhost:8080/tasks/1141 \
     -H "Authorization: Bearer ${TOKEN}" \
     -H "Accept: application/json"
 ```
+
+## Querying Results
+
+The report file is attached to the task. To retrieve the report fact for an application:
+
+```bash
+curl -sS http://localhost:8080/applications/370/facts/ai-migrator: \
+  -H "Accept: application/json" \
+  | python3 -c "
+import sys, json
+facts = json.load(sys.stdin)
+for k, v in facts.items():
+    if isinstance(v, list):
+        print(f'{k}: {bytes(v).decode()}')
+    else:
+        print(f'{k}: {v}')
+"
+```
+
+Then download the report file by ID:
+
+```bash
+curl -sS http://localhost:8080/files/<fileId> -o report.html
+```
+
+> **Note**: Fact values come back as byte arrays due to a [known hub serialization issue](NOTES.md#fact-serialization-known-hub-issue). The python snippet above decodes them. The primary report access path is the task attachment (`addon.Attach`), not facts.

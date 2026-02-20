@@ -2,14 +2,14 @@ GOPATH    ?= $(HOME)/go
 GOBIN     ?= $(GOPATH)/bin
 GOIMPORTS = $(GOBIN)/goimports
 CMD       ?= bin/addon
-IMG       ?= quay.io/konveyor/tackle2-addon-discovery:latest
+IMG       ?= quay.io/konveyor/tackle2-addon-ai-migrator:latest
 
 PKG = ./cmd/...
 PKGDIR = $(subst /...,,$(PKG))
 
 
 cmd: fmt vet
-	go build -ldflags="-w -s" -o ${CMD} github.com/konveyor/tackle2-addon-discovery/cmd
+	go build -ldflags="-w -s" -o ${CMD} github.com/konveyor-ecosystem/tackle2-addon-ai-migrator/cmd
 
 image-docker:
 	docker build -t ${IMG} .
