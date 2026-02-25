@@ -2,6 +2,8 @@
 
 A Tackle2 addon that uses [Goose](https://github.com/block/goose) to perform AI-assisted code migrations. The addon clones an application's source repo, fetches migration rules, runs a Goose recipe, and uploads the report back to the hub.
 
+The following is a guide to setting up and testing the addon locally.
+
 ## Prerequisites
 
 - Auth disabled on the hub (for now)
@@ -18,7 +20,7 @@ The hub API isn't directly accessible through the OpenShift route. Port-forward 
 oc port-forward svc/tackle-hub 8080:8080 -n konveyor-tackle
 ```
 
-### 2. Apply the Addon CR
+### 2. Apply the Addon CR (if not applied)
 
 ```bash
 oc apply -f ai-migrator-addon-cr.yaml -n konveyor-tackle
@@ -32,7 +34,7 @@ oc get addon ai-migrator -n konveyor-tackle -o yaml
 
 ## Usage
 
-### 1. Find the application ID
+### 1. Find an application ID
 
 ```bash
 curl -sS "http://localhost:8080/applications?limit=50" \
@@ -75,34 +77,26 @@ Save the `id` from the response (e.g. `1145`).
 | `targetTech` | Target technology (e.g. `"PatternFly 6"`) |
 | `rules` | Optional. Rules directly (repository, rulesets, files). If both `profile` and `rules` are set, the profile populates first, then direct rules override. |
 
-#### Applications on this cluster
-
-| ID  | Name | Repo | PF Version |
-|-----|------|------|------------|
-| 229 | Migration-Toolkit-for-Containers | migtools/mig-ui | PF 4 |
-| 230 | Migration-Toolkit-for-Virtualization | kubev2v/forklift-console-plugin | PF 6 |
-| 231 | Migration-Toolkit-For-Applications | konveyor/tackle2-ui (path: client) | PF 5 |
-| 232 | Migration-Tools-Shared-Library | migtools/lib-ui | PF 5 |
-
 ### 3. Run the addon locally
 
 Update `.env` with the task ID from step 2:
 
 ```
 TASK=1145
-SHARED_PATH=/home/jonah/Projects/github.com/konveyor-ecosystem/tackle2-addon-ai-migrator/shared
+SHARED_PATH=<path_to>/tackle2-addon-ai-migrator/shared
 HUB_BASE_URL=http://localhost:8080
-GOOSE_BIN=/home/jonah/Projects/github.com/konveyor-ecosystem/tackle2-addon-ai-migrator/bin/fake-goose
-RECIPE_PATH=/home/jonah/Projects/github.com/konveyor-ecosystem/tackle2-addon-ai-migrator/recipes/goose/recipes/migration.yaml
+GOOSE_BIN=<path_to>/tackle2-addon-ai-migrator/bin/fake-goose
+RECIPE_PATH=<path_to>/tackle2-addon-ai-migrator/recipes/goose/recipes/migration.yaml
 ```
+
+> [!NOTE] 
+> Set `GOOSE_BIN` to `bin/fake-goose` for fast iteration. Build it with `make fake-goose`.
 
 Then either hit F5 in VS Code (uses `.vscode/launch.json`) or:
 
 ```bash
 source .env && go run ./cmd
 ```
-
-> **Tip**: Set `GOOSE_BIN` to `bin/fake-goose` for fast iteration. Build it with `make fake-goose`.
 
 ### 4. Inspect results
 
@@ -148,7 +142,8 @@ for k, v in facts.items():
 "
 ```
 
-> [!NOTE]: Fact values come back as byte arrays due to a hub serialization issue. The python snippet above decodes them. The primary report access path is the task attachment (`addon.Attach`), not facts.
+> [!NOTE]
+> Fact values come back as byte arrays due to a hub serialization issue. The python snippet above decodes them. The primary report access path is the task attachment (`addon.Attach`), not facts.
 
 **Goose output log:**
 
